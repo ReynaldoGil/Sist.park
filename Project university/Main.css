@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url('estacionamiento.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    font-family: sans-serif;
+    position: relative;
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Container 1 */
+.container-A1-A6 {
+    display: grid;
+    grid-template-columns: repeat(6, 60px); /* 6 cuadros en fila */
+    gap: 26px; /* separación entre cuadros */
+    position: absolute;
+    top: 45px;  /* distancia desde arriba */
+    left: 400px; /* posición desde la izquierda */
+}
+
+/* Container 2 */
+.container-B1-B6 {
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    gap: 26px;
+    position: absolute;
+    top: 360px;  /* más abajo que el anterior */
+    left: 400px; /* puede ser el mismo o distinto */
+}
+
+/* Zona (cada cuadrito) */
+.Zone {
+    width: 70px;
+    height: 140px;
+    background-color: rgba(0, 255, 0, 0.4);
+    border: 1px solid white;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parking system</title>
+    <link rel="stylesheet" href="Main.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container-A1-A6">
+            <div id="PS-A1" class="Zone"></div>
+            <div id="PS-A2" class="Zone"></div>
+            <div id="PS-A3" class="Zone"></div>
+            <div id="PS-A4" class="Zone"></div>
+            <div id="PS-A5" class="Zone"></div>
+            <div id="PS-A6" class="Zone"></div>
+        </div>
+
+        <div class="container-B1-B6">
+            <div id="PS-B1" class="Zone"></div>
+            <div id="PS-B2" class="Zone"></div>
+            <div id="PS-B3" class="Zone"></div>
+            <div id="PS-B4" class="Zone"></div>
+            <div id="PS-B5" class="Zone"></div>
+            <div id="PS-B6" class="Zone"></div>
+        </div>
+    </div>
+    <script>
+    function actualizarColores() {
+        fetch('http://192.168.9.66:5000/ver')
+            .then(res => res.json())
+            .then(data => {
+                // Reiniciar todos a verde
+                document.querySelectorAll('.Zone').forEach(div => {
+                    div.style.backgroundColor = 'rgba(0, 255, 0, 0.4)';
+                });
+
+                // Aplicar color rojo a los que están ocupados
+                data.forEach(([lugar, color]) => {
+                    const div = document.getElementById('PS-' + lugar);
+                    if (div) {
+                        if (color === 'rojo') {
+                            div.style.backgroundColor = 'rgba(255, 0, 0, 0.4)';
+                        } else if (color === 'verde') {
+                            div.style.backgroundColor = 'rgba(0, 255, 0, 0.4)';
+                        }
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Error al obtener datos:', err);
+            });
+    }
+
+    // Actualizar cada 3 segundos
+    setInterval(actualizarColores, 3000);
+    actualizarColores(); // también al cargar la página
+    </script>
+
+</body>
+
+</html>
+
+<script>
+    function actualizarColores() {
+        fetch('http://192.168.9.66:5000/ver') // Reemplaza con la IP de tu laptop
+            .then(res => res.json())
+            .then(data => {
+                // Reset de todos los espacios
+                document.querySelectorAll('.Zone').forEach(zone => {
+                    zone.style.backgroundColor = 'rgba(0, 255, 0, 0.4)'; // verde por defecto
+                });
+
+                // Cambia solo los últimos en rojo si está ocupado
+                data.forEach((item, index) => {
+                    if (item[1] === 'rojo') {
+                        const id = `PS-A${index + 1}`; // Suponiendo que llegan en orden
+                        const zona = document.getElementById(id);
+                        if (zona) {
+                            zona.style.backgroundColor = 'rgba(255, 0, 0, 0.4)';
+                        }
+                    }
+                });
+            });
+    }
+
+    setInterval(actualizarColores, 3000); // cada 3 segundos
+</script>
